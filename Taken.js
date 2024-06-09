@@ -1,40 +1,39 @@
 // nog niet klaar...
 
 function fetchDataAndFilterDeadlines() {
-  const currentUrl = window.location.href;
-  const school_name = currentUrl.split("/")[2];
-  const plannerUrl = document.getElementById('datePickerMenu').getAttribute('plannerurl');
-  const user = plannerUrl.split("/")[4]);
-  const date = await getDateInCorrectFormat(true, false)
-  const endDate = await getDateInCorrectFormat(true, true
-                                              )
-  const url = `https://${school_name}.smartschool.be/planner/api/v1/planned-elements/user/${user}?from=${date}&to=${endDate}`;
-  console.log(url);
-  
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      // Filter data to include only items with deadlines
-      const itemsWithDeadlines = data.filter(item => item.period.deadline);
-      
-      // Do something with itemsWithDeadlines
-      console.log(itemsWithDeadlines);
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
+    const currentUrl = window.location.href;
+    const school_name = currentUrl.split("/")[2];
+    const plannerUrl = document.getElementById('datePickerMenu').getAttribute('plannerurl');
+    const user = plannerUrl.split("/")[4];
+    const date = await getDateInCorrectFormat(true, false)
+    const endDate = await getDateInCorrectFormat(true, true)
+    const url = `https://${school_name}.smartschool.be/planner/api/v1/planned-elements/user/${user}?from=${date}&to=${endDate}`;
+    console.log(url);
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Filter data to include only items with deadlines
+            const itemsWithDeadlines = data.filter(item => item.period.deadline);
+
+            // Do something with itemsWithDeadlines
+            console.log(itemsWithDeadlines);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
 
 async function getDateInCorrectFormat(isFancyFormat, plusOneWeek) {
-    if (plusOneWeek){
-      let currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + 7);
-    }else{
+    if (plusOneWeek) {
+        let currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 7);
+    } else {
         let currentDate = new Date();
     }
     if (currentDate.getHours() >= 18) {
