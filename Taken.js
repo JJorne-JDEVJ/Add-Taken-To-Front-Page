@@ -1,4 +1,4 @@
-//   :3
+// pain ( au chocolat )
 
 async function fetchDataAndFilterDeadlines() {
     try {
@@ -6,26 +6,26 @@ async function fetchDataAndFilterDeadlines() {
         const schoolName = currentUrl.split("/")[2];
         const plannerUrl = document.getElementById('datePickerMenu').getAttribute('plannerurl');
         const user = plannerUrl.split("/")[4];
-        const date = await getDateInCorrectFormat(true, false);
-        const endDate = await getDateInCorrectFormat(true, true);
+        const date = await getDateInCorrectFormat(false, false);
+        const endDate = await getDateInCorrectFormat(false, true);
 
         const url = `https://${schoolName}/planner/api/v1/planned-elements/user/${user}?from=${date}&to=${endDate}`;
         console.log(url);
 
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
-        
+
         // Filter data to include only items with deadlines
         const itemsWithDeadlines = data.filter(item => item.period && item.period.deadline);
-        
+
         // Do something with itemsWithDeadlines
         console.log(itemsWithDeadlines);
-        
+
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
     }
@@ -39,7 +39,7 @@ function fancyfyTime(inputTime) {
         const period = time.match(/(AM|PM)/i)[0];
         hours = parseInt(hours, 10);
         minutes = parseInt(minutes, 10);
-        
+
         if (period.toLowerCase() === 'pm' && hours !== 12) {
             hours += 12;
         } else if (period.toLowerCase() === 'am' && hours === 12) {
@@ -56,24 +56,21 @@ function fancyfyTime(inputTime) {
 
 async function getDateInCorrectFormat(isFancyFormat, isEndDate) {
     let currentDate = new Date();
-    
+
     if (isEndDate) {
-        currentDate.setDate(currentDate.getDate() + 7);  // next week
+        currentDate.setDate(currentDate.getDate() + 7);  // Assuming end date is next week
     }
 
-    if (currentDate.getHours() >= 18 || currentDate.getDay() === 5 && currentDate.getHours() >= 18 || currentDate.getDay() === 6 || currentDate.getDay() === 0) {
-        currentDate.setDate(currentDate.getDate() + (8 - currentDate.getDay()));
-        currentDate.setHours(7);
-        currentDate.setMinutes(30);
-    }
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
 
     if (isFancyFormat) {
-        const day = currentDate.getDate().toString().padStart(2, '0');
-        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-        const year = currentDate.getFullYear();
-        return `${year}-${month}-${day}`;
+        // Fancy format
+        return `${day}/${month}/${year}`;
     } else {
-        return currentDate;
+        // ISO format for API
+        return `${year}-${month}-${day}`;
     }
 }
 
@@ -83,13 +80,13 @@ async function fetchPlannerData(date, user) {
         const schoolName = currentUrl.split("/")[2];
         const url = `https://${schoolName}/planner/api/v1/planned-elements/user/${user}?from=${date}&to=${date}`;
         console.log(url);
-        
+
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch planner data');
         }
-        
+
         const data = await response.json();
         const itemsWithDeadlines = data.filter(item => item.period && item.period.deadline);
         console.log(itemsWithDeadlines);
@@ -104,6 +101,6 @@ async function fetchPlannerData(date, user) {
 document.addEventListener('DOMContentLoaded', async () => {
     const plannerUrl = document.getElementById('datePickerMenu').getAttribute('plannerurl');
     const user = plannerUrl.split("/")[4];
-    const data = await fetchPlannerData(await getDateInCorrectFormat(true), user);
+    const data = await fetchPlannerData(await getDateInCorrectFormat(false, false), user);
     console.log(data);
 });
