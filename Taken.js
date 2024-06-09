@@ -58,7 +58,7 @@ async function getDateInCorrectFormat(isFancyFormat, isEndDate) {
     let currentDate = new Date();
     
     if (isEndDate) {
-        currentDate.setDate(currentDate.getDate() + 1);  // Assuming end date is the next day
+        currentDate.setDate(currentDate.getDate() + 7);  // next week
     }
 
     if (currentDate.getHours() >= 18 || currentDate.getDay() === 5 && currentDate.getHours() >= 18 || currentDate.getDay() === 6 || currentDate.getDay() === 0) {
