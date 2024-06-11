@@ -1,5 +1,7 @@
 // pain ( au chocolat )
 
+fetchDataAndFilterDeadlines()
+
 async function fetchDataAndFilterDeadlines() {
     try {
         const currentUrl = window.location.href;
