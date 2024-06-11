@@ -1,5 +1,7 @@
 // pain ( au chocolat )
 
+fetchDataAndFilterDeadlines() // the begining
+
 async function fetchDataAndFilterDeadlines() {
     try {
         const currentUrl = window.location.href;
@@ -18,13 +20,12 @@ async function fetchDataAndFilterDeadlines() {
             throw new Error('Network response was not ok');
         }
 
-        const data = await response.json();
+        let data = await response.json();
 
         // Filter data to include only items with deadlines
         const itemsWithDeadlines = data.filter(item => item.period && item.period.deadline);
 
-        // Do something with itemsWithDeadlines
-        console.log(itemsWithDeadlines);
+        createGUI(itemsWithDeadlines)
 
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -58,7 +59,7 @@ async function getDateInCorrectFormat(isFancyFormat, isEndDate) {
     let currentDate = new Date();
 
     if (isEndDate) {
-        currentDate.setDate(currentDate.getDate() + 7);  // Assuming end date is next week
+        currentDate.setDate(currentDate.getDate() + 7); // Assuming end date is next week
     }
 
     const year = currentDate.getFullYear();
@@ -98,9 +99,7 @@ async function fetchPlannerData(date, user) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const plannerUrl = document.getElementById('datePickerMenu').getAttribute('plannerurl');
-    const user = plannerUrl.split("/")[4];
-    const data = await fetchPlannerData(await getDateInCorrectFormat(false, false), user);
+function createGUI(data) {
     console.log(data);
-});
+    
+}
