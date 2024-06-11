@@ -417,8 +417,8 @@ function load() {
   const isbig = document.getElementById("isbig");
   const showplanner = document.getElementById("showplanner");
   const weatherSelector = document.getElementById("weatherSelector");
-  const show_plant = document.getElementById("show_plant")
-  const showtaken document.getElementById("show_taken")
+  const show_plant = document.getElementById("show_plant");
+  const showtaken = document.getElementById("show_taken");
   profileSelect.value = settingsData.profile
   halte.checked = settingsData.halte
   overwrite_theme.value = settingsData.overwrite_theme
