@@ -99,5 +99,19 @@ async function fetchPlannerData(date, user) {
 
 function createGUI(data) {
     console.log(data);
-    
+    const takencontainer = document.getElementById('takencontainer')
+    let takenbanner = document.createElement('span');
+    takenbanner.classList.add('takenHeader');
+    takenbanner.innerHTML = `<b>Taken</b>`
+    takencontainer.appendChild(takenbanner);
+
+    let options = { weekday: 'long', day: 'numeric', month: 'long' };
+    for (var i = 0; i < data.length; i++) {
+        let cur = data[i]
+
+        let date = new Date(cur.period.dateTimeFrom);
+        let formattedDate = date.toLocaleString('nl-BE', options);
+        console.log(formattedDate); // bv Maandag 1 September
+
+    }
 }
