@@ -23,11 +23,10 @@ async function fetchDataAndFilterDeadlines() {
         // Filter data to include only items with deadlines
         const itemsWithDeadlines = data.filter(item => item.period && item.period.deadline);
 
-        createGUI(itemsWithDeadlines)
-
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
     }
+    createGUI(itemsWithDeadlines)
 }
 
 async function getDateInCorrectFormat(isFancyFormat, isEndDate) {
@@ -51,20 +50,23 @@ async function getDateInCorrectFormat(isFancyFormat, isEndDate) {
 }
 
 function createGUI(data) {
-    console.log(data);
-    const takencontainer = document.getElementById('takencontainer')
-    let takenbanner = document.createElement('span');
-    takenbanner.classList.add('takenHeader');
-    takenbanner.innerHTML = `<b>Taken</b>`
-    takencontainer.appendChild(takenbanner);
+    try {
+        console.log(data);
+        const takencontainer = document.getElementById('takencontainer')
+        let takenbanner = document.createElement('span');
+        takenbanner.classList.add('takenHeader');
+        takenbanner.innerHTML = `<b>Taken</b>`
+        takencontainer.appendChild(takenbanner);
 
-    let options = { weekday: 'long', day: 'numeric', month: 'long' };
-    for (var i = 0; i < data.length; i++) {
-        let cur = data[i]
+        let options = { weekday: 'long', day: 'numeric', month: 'long' };
+        for (var i = 0; i < data.length; i++) {
+            let cur = data[i]
 
-        let date = new Date(cur.period.dateTimeFrom);
-        let formattedDate = date.toLocaleString('nl-BE', options);
-        console.log(formattedDate); // bv Maandag 1 September
-
+            let date = new Date(cur.period.dateTimeFrom);
+            let formattedDate = date.toLocaleString('nl-BE', options);
+            console.log(formattedDate); // bv Maandag 1 September
+        }
+    }catch(error){
+        console.error('Error during creation of taken GUI', error)
     }
 }
