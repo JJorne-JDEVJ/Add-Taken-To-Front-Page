@@ -31,6 +31,7 @@
 			"css": [
 				"CSS/general.css",
 				"CSS/weather.css",
+				"CSS/taken.css",
 				"DMENU/dmenu.css",
 				"CSS/login.css",
 				"CSS/messages.css",
