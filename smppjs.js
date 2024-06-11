@@ -4,8 +4,8 @@
 const default_theme = {
   base0: "#38313a", base1: "#826882", base2: "#ac85b7", base3: "#c78af0", accent: "#a3a2ec", text: "#ede3e3"
 }
-function unbloat() {
-  document.body.innerHTML = '';
+function unbloat() { 
+  document.body.innerHTML = ''; // hmmm yes such bloat
 }
 function discordpopup() {
   let discordelement = document.createElement("div")
@@ -58,12 +58,13 @@ async function apply() {
   const weatherAmount = settingsData.weatherAmount;
   const shownews = settingsData.shownews;
   const showsnake = settingsData.showsnake;
+  const showtaken = settingsData.showtaken;
   const showflappy = settingsData.showflappy;
   var show_scores = settingsData.show_scores;
   var showplanner = settingsData.showplanner;
   var IsBig = settingsData.isbig;
   var weatherSelector = settingsData.weatherSelector;
-  var show_plant = settingsData.show_plant
+  var show_plant = settingsData.show_plant;
   set_theme("default");
   set_theme(profileSelect);
 
@@ -170,8 +171,10 @@ async function apply() {
       leftcontainer.innerHTML = " "
       leftcontainer.style.display = "none"
     }
+
+// ???
 document.getElementById("leftcontainer")?document.getElementById("leftcontainer").remove() : "pass"
-document.getElementById("rightcontainer")?document.getElementById("rightcontainer").remove() : "pass"
+document.getElementById("rightcontainer")?document.getElementById("rightcontainer").remove() : "pass" 
 document.getElementById("plannercontainer")?document.getElementById("plannercontainer").remove() : "pass"
 document.getElementById("weathercontainer")?document.getElementById("weathercontainer").remove() : "pass"
 document.getElementById("delijncontainer")?document.getElementById("delijncontainer").remove() : "pass"
@@ -218,6 +221,14 @@ document.getElementById("plantcontainer")?document.getElementById("plantcontaine
         container.append(WeatherAppElement)
       }
         startSnakeGame()
+    }
+    if (showtaken){
+      var TakenAppElement = document.createElement("div")
+      PlannerAppElement.classList.add("homepage__left")
+      PlannerAppElement.classList.add("smsc-container--left")
+      PlannerAppElement.setAttribute("id", "Takencontainer")
+      container.prepend(TakenAppElement)
+      fetchDataAndFilterDeadlines()
     }
     if (showflappy) {
       if(!document.getElementById("weathercontainer")){
@@ -295,7 +306,8 @@ function store() {
   const isbig = document.getElementById("isbig").checked;
   const showplanner = document.getElementById("showplanner").checked;
   const weatherSelector = document.getElementById("weatherSelector").value;
-  const show_plant = document.getElementById("show_plant").checked
+  const show_plant = document.getElementById("show_plant").checked;
+  const showtaken = document.getElementById("showtaken").checked;
   settingsData.profile = profileSelect;
   settingsData.halte = halte;
   settingsData.overwrite_theme = overwrite_theme;
@@ -312,6 +324,7 @@ function store() {
   settingsData.showplanner = showplanner;
   settingsData.weatherSelector = weatherSelector;
   settingsData.show_plant = show_plant
+  settingsData.showtaken = showtaken
 
   console.log(settingsData)
   if (settingsData.show_scores == undefined) {
@@ -405,6 +418,7 @@ function load() {
   const showplanner = document.getElementById("showplanner");
   const weatherSelector = document.getElementById("weatherSelector");
   const show_plant = document.getElementById("show_plant")
+  const showtaken document.getElementById("show_taken")
   profileSelect.value = settingsData.profile
   halte.checked = settingsData.halte
   overwrite_theme.value = settingsData.overwrite_theme
@@ -419,6 +433,7 @@ function load() {
   showplanner.checked = settingsData.showplanner
   weatherSelector.value = settingsData.weatherSelector
   show_plant.checked = settingsData.show_plant
+  show_taken.checked = settingsData.showtaken
   if (profileSelect.value == "custom") {
     loadCustomTheme()
   }
